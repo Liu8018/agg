@@ -1,0 +1,11 @@
+siteName,jwc,北京理工大学教务处
+url,http://jwc.bit.edu.cn/tzgg/index.htm
+info,<a href="\d{6}.htm">(.*),.*
+date,<span>(.*)</span>,\d{2}-\d{2}
+detailUrl,<a href="(.*)">.*,\d{6}.htm
+
+siteName,zdh,北京理工大学自动化学院
+url,http://ac.bit.edu.cn/tzgg/index.htm
+info,<li><span>\d{4}-\d{2}-\d{2}</span><a href="\d{6}.htm">(.*),.*
+date,<li><span>(.*)</span><a href="\d{6}.htm">.*,\d{4}-\d{2}-\d{2}
+detailUrl,<li><span>\d{4}-\d{2}-\d{2}</span><a href="(.*)">.*,\d{6}.htm

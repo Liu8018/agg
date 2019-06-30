@@ -1,46 +1,104 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
-import QtQuick.Layouts 1.3
+import QtQuick.Layouts 1.12
 import agg.WebTool 1.0
 
 ApplicationWindow {
     visible: true;
-    width: initialWidth;
-    height: initialHeight;
+    //width: initialWidth;
+    //height: initialHeight;
     title: qsTr("agg");
     
     /*
-    ScrollView {
-        anchors.fill: parent
-        
-        ListView {
-            width: parent.width
-            model: 20
-            delegate: ItemDelegate {
-                text: "Item " + (index + 1)
-                width: parent.width
-            }
-        }
-    }
+    property variant mainInfos;
+    property variant mainDates;
+    property variant mainDetailUrls;
     */
     
     WebTool {
         id: webTool;
-        mainUrl: "http://jwc.bit.edu.cn/tzgg/index.htm";
+        cSite: "zdh";
+        
+        /*
+        Component.onCompleted: {
+            mainInfos = webTool.mainInfos;
+            mainDates = webTool.mainDates;
+            mainDetailUrls = webTool.mainDetailUrls;
+        }
+        */
     }
     
+    
+    ScrollView {
+        anchors.fill: parent;
+        
+        ListView {
+            id: listView;
+            width: parent.width;
+            model: 20;
+            delegate: Component {
+                Item {
+                    id: wrapper;
+                    width: parent.width;
+                    height: 90;
+                    
+                    MouseArea {
+                        anchors.fill: parent;
+                        width: parent.width;
+                        onClicked: {
+                            listView.currentIndex = index;
+                            webTool.currentIdx = index;
+                        }
+                    }
+                    
+                    RowLayout {
+                        anchors.left: parent.left;
+                        anchors.leftMargin: 5;
+                        anchors.verticalCenter: parent.verticalCenter;
+                        
+                        Text {
+                            text: webTool.mainInfos[index];
+                            width: parent.width;
+                            wrapMode: Text.WrapAnywhere;
+                            
+                            color: listView.currentIndex==index? "red":"black";
+                            
+                            Layout.preferredWidth: 300;
+                        }
+                        
+                        Text {
+                            text: webTool.mainDates[index];
+                            width: parent.width;
+                            wrapMode: Text.WrapAnywhere;
+                            
+                            color: listView.currentIndex==index? "red":"black";
+                            
+                            Layout.preferredWidth: 100;
+                        }
+                    }
+
+                }
+                
+            }
+            
+            focus: true;
+            highlight: Rectangle{
+                width: parent.width;
+                color: "lightblue";
+            }
+            highlightMoveDuration: 0;
+        }
+    }
+    
+    
+    
+    /*
     ListModel {
          id: mainContent;
          ListElement {
-             info: "info";//+index;
-             date: "date";//+index;
+             info: webTool.getMainInfo();
+             date: webTool.getMainDate();
              imageUrl: "image";//+index;
-             detailUrl: "...";
-         }
-         ListElement {
-             info: "info1";//+index;
-             date: "date1";//+index;
-             imageUrl: "image1";//+index;
              detailUrl: "...";
          }
      }
@@ -57,6 +115,7 @@ ApplicationWindow {
                  onClicked: {
                      wrapper.ListView.view.currentIndex = index;
                      webTool.loadMainData();
+                     webTool.setIndex(index);
                  }
              }
              
@@ -96,4 +155,5 @@ ApplicationWindow {
          }
          highlightMoveDuration: 0;
      }
+     */
 }

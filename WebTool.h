@@ -6,19 +6,20 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QEventLoop>
+#include <regex>
 
 class WebTool : public QObject
 {
     Q_OBJECT
     
-    Q_PROPERTY(QString mainUrl WRITE setMainUrl)
+    Q_PROPERTY(QString cSite WRITE setCSite)
     
-    Q_PROPERTY(uint currentIdx WRITE setIndex)
+    Q_PROPERTY(int currentIdx WRITE setIndex)
     
-    Q_PROPERTY(QString mainInfo READ getMainInfo)
-    Q_PROPERTY(QString mainDate READ getMainDate)
-    Q_PROPERTY(QImage getMainImage READ getMainImage)
-    Q_PROPERTY(QString getMainDetailUrl READ getMainDetailUrl)
+    Q_PROPERTY(QStringList mainInfos READ getMainInfos NOTIFY mainInfosChanged)
+    Q_PROPERTY(QStringList mainDates READ getMainDates NOTIFY mainDatesChanged)
+    //Q_PROPERTY(QImage getMainImage READ getMainImage)
+    Q_PROPERTY(QStringList mainDetailUrls READ getMainDetailUrls NOTIFY mainDetailUrlsChanged)
     
     Q_PROPERTY(QString detailData READ getDetailData)
     
@@ -28,29 +29,48 @@ public:
     Q_INVOKABLE void loadMainData();
     Q_INVOKABLE void loadDetailData();
     
-    void setMainUrl(QString url);
+    void setCSite(QString site);
     
-    void setIndex(uint index);
+    void setIndex(int index);
     
-    QString getMainInfo() const;
-    QString getMainDate() const;
-    QImage getMainImage() const;
-    QString getMainDetailUrl() const;
+    QStringList getMainInfos() const;
+    QStringList getMainDates() const;
+    //QImage getMainImage() const;
+    QStringList getMainDetailUrls() const;
     
     QString getDetailData() const;
     
 signals:
+    void mainInfosChanged(QStringList mainInfos);
+    void mainDatesChanged(QStringList mainDates);
+    void mainDetailUrlsChanged(QStringList mainDetailUrls);
     
 public slots:
     
 private:
-    QString m_mainUrl;
-    uint m_currentIdx;
+    QString m_cSite;
+    int m_currentIdx;
     
-    std::vector<QString> m_mainData;
+    QStringList m_mainInfos;
+    QStringList m_mainDates;
+    QStringList m_mainImages;
+    QStringList m_mainDetailUrls;
+    
     QString m_detailData;
     
-    void extractInfo(QString pageCode);
+    QString m_siteName;
+    QString m_siteUrl;
+    
+    std::regex m_infoReg_e;
+    std::regex m_infoReg_t;
+    std::regex m_dateReg_e;
+    std::regex m_dateReg_t;
+    std::regex m_detailUrlReg_e;
+    std::regex m_detailUrlReg_t;
+    
+    void loadSiteInfo();
+    
+    void extractWebPageInfo(QString pageCode);
 };
 
 #endif // WEBTOOL_H

@@ -1,12 +1,52 @@
-#include "WebTool.h"
-#include <regex>
+﻿#include "WebTool.h"
+#include <fstream>
+#include <iostream>
+#include <QFile>
 
 WebTool::WebTool(QObject *parent) : QObject(parent)
 {
     
 }
 
-void WebTool::extractInfo(QString pageCode)
+void WebTool::loadSiteInfo()
+{
+    QFile file(":/rcs/siteInfo.txt");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QByteArray t = file.readAll();
+    QString fileContent = QString(t);
+    file.close();
+    
+    QStringList lines = fileContent.split("\n");
+    qDebug()<<lines;
+    
+    for(int i=0;i<lines.length();i++)
+    {
+        if(lines[i].contains(m_cSite))
+        {
+            QStringList siteName = lines[i].split(",");
+            m_siteName = siteName[2];
+            
+            QStringList url = lines[i+1].split(",");
+            m_siteUrl = url[1];
+            
+            QStringList info = lines[i+2].split(",");
+            m_infoReg_e.assign(info[1].toStdString());
+            m_infoReg_t.assign(info[2].toStdString());
+            
+            QStringList date = lines[i+3].split(",");
+            m_dateReg_e.assign(date[1].toStdString());
+            m_dateReg_t.assign(date[2].toStdString());
+            
+            QStringList detailUrl = lines[i+4].split(",");
+            m_detailUrlReg_e.assign(detailUrl[1].toStdString());
+            m_detailUrlReg_t.assign(detailUrl[2].toStdString());
+            
+            break;
+        }
+    }
+}
+
+void WebTool::extractWebPageInfo(QString pageCode)
 {
     //分行
     QStringList qstrList = pageCode.split("\n");
@@ -15,31 +55,52 @@ void WebTool::extractInfo(QString pageCode)
     for(int i=0;i<qstrList.length();i++)
         qstrList[i] = qstrList[i].simplified();
     
-    std::regex reg("<span>(.*)</span>");
     std::smatch matchResult;
     for(int i=0;i<qstrList.length();i++)
     {
-        if(qstrList[i].contains("crules_con"))
+        //正则匹配
+        std::string str = qstrList[i].toStdString();
+        
+        if(std::regex_match(str,matchResult,m_infoReg_e))
         {
-            int offset = 3;
-            
-            //正则匹配
-            std::string str = qstrList[i+offset].toStdString();
-            
-            if(std::regex_match(str,matchResult,reg))
+            std::string matchedStr = matchResult[1].str().data();
+            if(std::regex_match(matchedStr,m_infoReg_t))
             {
-                qDebug()<<matchResult[1].str().data();
+                QString qstr = QString(matchedStr.data()).simplified();
+                m_mainInfos.append(qstr);
+            }
+        }
+        if(std::regex_match(str,matchResult,m_dateReg_e))
+        {
+            std::string matchedStr = matchResult[1].str().data();
+            if(std::regex_match(matchedStr,m_dateReg_t))
+            {
+                QString qstr = QString(matchedStr.data()).simplified();
+                m_mainDates.append(qstr);
+            }
+        }
+        if(std::regex_match(str,matchResult,m_detailUrlReg_e))
+        {
+            std::string matchedStr = matchResult[1].str().data();
+            if(std::regex_match(matchedStr,m_detailUrlReg_t))
+            {
+                QString qstr = QString(matchedStr.data()).simplified();
+                m_mainDetailUrls.append(qstr);
             }
         }
     }
+    
+    qDebug()<<"infos:"<<m_mainInfos.length()<<m_mainInfos;
+    qDebug()<<"dates:"<<m_mainDates.length()<<m_mainDates;
+    qDebug()<<"detailUrls:"<<m_mainDetailUrls.length()<<m_mainDetailUrls;
 }
 
 void WebTool::loadMainData()
 {
-    QUrl url(m_mainUrl);
+    QUrl url(m_siteUrl);
     QNetworkAccessManager manager;
     QEventLoop loop;
-    qDebug() << "Reading code form " << m_mainUrl;
+    qDebug() << "Reading code form " << m_siteUrl;
  
     QNetworkReply *reply = manager.get(QNetworkRequest(url));  //发送get请求
     connect(reply,&QNetworkReply::finished,&loop,&QEventLoop::quit); //请求结束并下载完成后，退出子事件循环
@@ -51,7 +112,7 @@ void WebTool::loadMainData()
     QString pageCode = reply->readAll();
     
     //从源码中解析信息
-    extractInfo(pageCode);
+    extractWebPageInfo(pageCode);
 }
 
 void WebTool::loadDetailData()
@@ -59,31 +120,40 @@ void WebTool::loadDetailData()
     
 }
 
-void WebTool::setMainUrl(QString url)
+void WebTool::setCSite(QString site)
 {
-    m_mainUrl = url;
+    m_cSite = site;
+    
+    loadSiteInfo();
+    
+    loadMainData();
 }
 
-void WebTool::setIndex(uint index)
+void WebTool::setIndex(int index)
 {
     m_currentIdx = index;
 }
 
-QString WebTool::getMainInfo() const
+QStringList WebTool::getMainInfos() const
 {
-    
+    return m_mainInfos;
 }
-QString WebTool::getMainDate() const
+
+QStringList WebTool::getMainDates() const
 {
-    
+    return m_mainDates;
 }
+
+/*
 QImage WebTool::getMainImage() const
 {
     
 }
-QString WebTool::getMainDetailUrl() const
+*/
+
+QStringList WebTool::getMainDetailUrls() const
 {
-    
+    return m_mainDetailUrls;
 }
 
 QString WebTool::getDetailData() const
