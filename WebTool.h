@@ -6,7 +6,10 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QEventLoop>
+#include <QFile>
 #include <regex>
+
+#include "Crawler.h"
 
 class WebTool : public QObject
 {
@@ -20,6 +23,8 @@ class WebTool : public QObject
     Q_PROPERTY(QStringList mainDates READ getMainDates NOTIFY mainDatesChanged)
     //Q_PROPERTY(QImage getMainImage READ getMainImage)
     Q_PROPERTY(QStringList mainDetailUrls READ getMainDetailUrls NOTIFY mainDetailUrlsChanged)
+    
+    Q_PROPERTY(int mainInfoCount READ getMainInfoCount)
     
     Q_PROPERTY(QString detailData READ getDetailData)
     
@@ -37,6 +42,8 @@ public:
     QStringList getMainDates() const;
     //QImage getMainImage() const;
     QStringList getMainDetailUrls() const;
+    
+    int getMainInfoCount() const;
     
     QString getDetailData() const;
     
@@ -67,6 +74,8 @@ private:
     std::regex m_dateReg_t;
     std::regex m_detailUrlReg_e;
     std::regex m_detailUrlReg_t;
+    
+    Crawler m_crawler;
     
     void loadSiteInfo();
     

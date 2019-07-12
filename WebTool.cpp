@@ -1,6 +1,6 @@
 ﻿#include "WebTool.h"
-#include <fstream>
 #include <iostream>
+#include <regex>
 #include <QFile>
 
 WebTool::WebTool(QObject *parent) : QObject(parent)
@@ -122,11 +122,27 @@ void WebTool::loadDetailData()
 
 void WebTool::setCSite(QString site)
 {
+    qDebug()<<"setCSite begin";
     m_cSite = site;
     
     loadSiteInfo();
     
     loadMainData();
+    
+    std::string domainKeyword = "bit";
+    std::vector<std::string> searchKeywords;
+    searchKeywords.push_back("CET6");
+    std::string dateBegin = "2018.01.01";
+    std::string dateEnd = "2019.09.01";
+    
+    std::vector<std::string> targetUrls;
+    std::vector<std::string> titles;
+    std::vector<std::string> dates;
+    std::vector<QImage> imgs;
+    m_crawler.crawl(m_siteUrl.toStdString(),domainKeyword,searchKeywords,dateBegin,dateEnd,
+                    targetUrls,titles,dates,imgs);
+    
+    qDebug()<<"setCSite end";
 }
 
 void WebTool::setIndex(int index)
@@ -154,6 +170,11 @@ QImage WebTool::getMainImage() const
 QStringList WebTool::getMainDetailUrls() const
 {
     return m_mainDetailUrls;
+}
+
+int WebTool::getMainInfoCount() const
+{
+    return m_mainInfos.size();
 }
 
 QString WebTool::getDetailData() const
