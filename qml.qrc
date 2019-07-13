@@ -3,5 +3,11 @@
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>rcs/siteInfo.txt</file>
+        <file>rcs/images/WebView/left-32.png</file>
+        <file>rcs/images/WebView/refresh-32.png</file>
+        <file>rcs/images/WebView/right-32.png</file>
+        <file>rcs/images/WebView/stop-32.png</file>
+        <file>WebView.qml</file>
+        <file>AggPage.qml</file>
     </qresource>
 </RCC>

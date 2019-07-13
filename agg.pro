@@ -1,4 +1,4 @@
-QT += quick
+QT += quick qml webview
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -31,3 +31,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     WebTool.h
+
+DISTFILES +=
+
+INSTALLS += target
