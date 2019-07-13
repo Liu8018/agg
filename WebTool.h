@@ -9,8 +9,6 @@
 #include <QFile>
 #include <regex>
 
-#include "Crawler.h"
-
 class WebTool : public QObject
 {
     Q_OBJECT
@@ -68,18 +66,15 @@ private:
     QString m_siteName;
     QString m_siteUrl;
     
-    std::regex m_infoReg_e;
-    std::regex m_infoReg_t;
-    std::regex m_dateReg_e;
-    std::regex m_dateReg_t;
-    std::regex m_detailUrlReg_e;
-    std::regex m_detailUrlReg_t;
-    
-    Crawler m_crawler;
+    std::regex m_infoReg;
+    std::regex m_dateReg;
+    std::regex m_detailUrlReg;
     
     void loadSiteInfo();
     
     void extractWebPageInfo(QString pageCode);
+    
+    void getTrueUrlPath(const std::string &siteUrl, const std::string &subUrl, std::string &url);
 };
 
 #endif // WEBTOOL_H

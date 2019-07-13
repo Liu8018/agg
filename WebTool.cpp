@@ -30,20 +30,49 @@ void WebTool::loadSiteInfo()
             m_siteUrl = url[1];
             
             QStringList info = lines[i+2].split(",");
-            m_infoReg_e.assign(info[1].toStdString());
-            m_infoReg_t.assign(info[2].toStdString());
+            m_infoReg.assign(info[1].toStdString());
             
             QStringList date = lines[i+3].split(",");
-            m_dateReg_e.assign(date[1].toStdString());
-            m_dateReg_t.assign(date[2].toStdString());
+            m_dateReg.assign(date[1].toStdString());
             
             QStringList detailUrl = lines[i+4].split(",");
-            m_detailUrlReg_e.assign(detailUrl[1].toStdString());
-            m_detailUrlReg_t.assign(detailUrl[2].toStdString());
+            m_detailUrlReg.assign(detailUrl[1].toStdString());
             
             break;
         }
     }
+}
+
+void WebTool::getTrueUrlPath(const std::string &siteUrl, const std::string &subUrl, std::string &url)
+{
+    url = siteUrl.substr(0,siteUrl.find_last_of("/")+1) + subUrl;
+    
+    QString q_url = url.data();
+    QStringList qList_url = q_url.split("/");
+    
+    for(int i=0;i<qList_url.size();i++)
+    {
+        //qDebug()<<"qList_url["<<i<<"]:"<<qList_url[i];
+        
+        if(qList_url[i] == "..")
+        {
+            qList_url.removeAt(i);
+            qList_url.removeAt(i-1);
+            
+            i -= 2;
+        }
+    }
+        
+    q_url = "";
+    for(int i=0;i<qList_url.size();i++)
+    {
+        if(i==qList_url.size()-1)
+            q_url += qList_url[i];
+        else
+            q_url += qList_url[i] + "/";
+    }
+    
+    url = q_url.toStdString();
 }
 
 void WebTool::extractWebPageInfo(QString pageCode)
@@ -61,32 +90,25 @@ void WebTool::extractWebPageInfo(QString pageCode)
         //正则匹配
         std::string str = qstrList[i].toStdString();
         
-        if(std::regex_match(str,matchResult,m_infoReg_e))
+        if(std::regex_match(str,matchResult,m_infoReg))
         {
             std::string matchedStr = matchResult[1].str().data();
-            if(std::regex_match(matchedStr,m_infoReg_t))
-            {
-                QString qstr = QString(matchedStr.data()).simplified();
-                m_mainInfos.append(qstr);
-            }
+            QString qstr = QString(matchedStr.data()).simplified();
+            m_mainInfos.append(qstr);
         }
-        if(std::regex_match(str,matchResult,m_dateReg_e))
+        if(std::regex_match(str,matchResult,m_dateReg))
         {
             std::string matchedStr = matchResult[1].str().data();
-            if(std::regex_match(matchedStr,m_dateReg_t))
-            {
-                QString qstr = QString(matchedStr.data()).simplified();
-                m_mainDates.append(qstr);
-            }
+            QString qstr = QString(matchedStr.data()).simplified();
+            m_mainDates.append(qstr);
         }
-        if(std::regex_match(str,matchResult,m_detailUrlReg_e))
+        if(std::regex_match(str,matchResult,m_detailUrlReg))
         {
             std::string matchedStr = matchResult[1].str().data();
-            if(std::regex_match(matchedStr,m_detailUrlReg_t))
-            {
-                QString qstr = QString(matchedStr.data()).simplified();
-                m_mainDetailUrls.append(qstr);
-            }
+            QString qstr = QString(matchedStr.data()).simplified();
+            std::string trueUrl;
+            getTrueUrlPath(m_siteUrl.toStdString(),qstr.toStdString(),trueUrl);
+            m_mainDetailUrls.append(trueUrl.data());
         }
     }
     
@@ -128,19 +150,6 @@ void WebTool::setCSite(QString site)
     loadSiteInfo();
     
     loadMainData();
-    
-    std::string domainKeyword = "bit";
-    std::vector<std::string> searchKeywords;
-    searchKeywords.push_back("CET6");
-    std::string dateBegin = "2018.01.01";
-    std::string dateEnd = "2019.09.01";
-    
-    std::vector<std::string> targetUrls;
-    std::vector<std::string> titles;
-    std::vector<std::string> dates;
-    std::vector<QImage> imgs;
-    m_crawler.crawl(m_siteUrl.toStdString(),domainKeyword,searchKeywords,dateBegin,dateEnd,
-                    targetUrls,titles,dates,imgs);
     
     qDebug()<<"setCSite end";
 }

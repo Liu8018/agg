@@ -35,7 +35,7 @@ ApplicationWindow {
         ListView {
             id: listView;
             width: parent.width;
-            model: 20;
+            model: webTool.mainInfoCount;
             delegate: Component {
                 Item {
                     id: wrapper;
