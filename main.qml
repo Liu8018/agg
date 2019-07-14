@@ -9,22 +9,47 @@ ApplicationWindow {
     height: initialHeight;
     title: qsTr("agg");
     
+    property string cSite: "zdh";
+    onCSiteChanged: {
+        tabBar.currentIndex = 1;
+    }
+    
     SwipeView {
-        id: swipeView
-        anchors.fill: parent
-        currentIndex: tabBar.currentIndex
-        
-        AggPage {
+        id: swipeView;
+        anchors.fill: parent;
+        currentIndex: tabBar.currentIndex;
+        onCurrentIndexChanged: {
+            if(currentIndex == 2)
+                webPage.visible = true;
         }
         
-        WebView {
+        AggPage {
+            
+        }
+        
+        InfoPage {
+            id: infoPage;
+            currentSite: cSite;
+            
+            onCurrentInfoIdxChanged: {
+                webPage.visible = true;
+                tabBar.currentIndex = 2;
+            }
+        }
+        
+        WebPage {
+            id: webPage;
+            currentUrl: infoPage.currentDetailUrl;
         }
     }
     
     footer: TabBar {
-        id: tabBar
-        currentIndex: swipeView.currentIndex
+        id: tabBar;
+        currentIndex: swipeView.currentIndex;
         
+        TabButton {
+            text: qsTr("Page 0")
+        }
         TabButton {
             text: qsTr("Page 1")
         }

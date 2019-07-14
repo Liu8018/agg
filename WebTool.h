@@ -22,7 +22,7 @@ class WebTool : public QObject
     //Q_PROPERTY(QImage getMainImage READ getMainImage)
     Q_PROPERTY(QStringList mainDetailUrls READ getMainDetailUrls NOTIFY mainDetailUrlsChanged)
     
-    Q_PROPERTY(int mainInfoCount READ getMainInfoCount)
+    Q_PROPERTY(int mainInfoCount READ getMainInfoCount NOTIFY mainInfoCountChanged)
     
     Q_PROPERTY(QString detailData READ getDetailData)
     
@@ -49,6 +49,7 @@ signals:
     void mainInfosChanged(QStringList mainInfos);
     void mainDatesChanged(QStringList mainDates);
     void mainDetailUrlsChanged(QStringList mainDetailUrls);
+    void mainInfoCountChanged(int mainInfoCount);
     
 public slots:
     

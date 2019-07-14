@@ -31,7 +31,3 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     WebTool.h
-
-DISTFILES +=
-
-INSTALLS += target

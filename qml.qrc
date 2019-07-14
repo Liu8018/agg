@@ -7,7 +7,8 @@
         <file>rcs/images/WebView/refresh-32.png</file>
         <file>rcs/images/WebView/right-32.png</file>
         <file>rcs/images/WebView/stop-32.png</file>
-        <file>WebView.qml</file>
+        <file>WebPage.qml</file>
+        <file>InfoPage.qml</file>
         <file>AggPage.qml</file>
     </qresource>
 </RCC>
