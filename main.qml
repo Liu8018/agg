@@ -11,16 +11,18 @@ ApplicationWindow {
     
     property string cSite: "zdh";
     onCSiteChanged: {
-        tabBar.currentIndex = 1;
+        swipeView.currentIndex = 1;
+        //tabBar.currentIndex = 1;
     }
     
     SwipeView {
         id: swipeView;
         anchors.fill: parent;
-        currentIndex: tabBar.currentIndex;
+        //currentIndex: tabBar.currentIndex;
         onCurrentIndexChanged: {
             if(currentIndex == 2)
                 webPage.visible = true;
+            //tabBar.currentIndex = currentIndex;
         }
         
         AggPage {
@@ -33,7 +35,8 @@ ApplicationWindow {
             
             onCurrentInfoIdxChanged: {
                 webPage.visible = true;
-                tabBar.currentIndex = 2;
+                swipeView.currentIndex = 2;
+                //tabBar.currentIndex = 2;
             }
         }
         
@@ -43,9 +46,14 @@ ApplicationWindow {
         }
     }
     
+    /*
     footer: TabBar {
         id: tabBar;
+        visible: true;
         currentIndex: swipeView.currentIndex;
+        onCurrentIndexChanged: {
+            swipeView.currentIndex = currentIndex;
+        }
         
         TabButton {
             text: qsTr("Page 0")
@@ -57,4 +65,5 @@ ApplicationWindow {
             text: qsTr("Page 2")
         }
     }
+    */
 }
