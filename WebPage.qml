@@ -13,6 +13,12 @@ Page {
     
     property int toolbarHeight: initialHeight/10;
     
+    property bool showProgress: webView.loading
+                                && Qt.platform.os !== "ios"
+                                && Qt.platform.os !== "winrt"
+    
+    property bool backPage: false;
+    
     visible: false;
     x: initialX;
     y: initialY;
@@ -39,14 +45,29 @@ Page {
         height: toolbarHeight*3/4;
         anchors.top: parent.top;
         
+        ToolButton {
+            id: closeButton;
+            
+            anchors.left: parent.left;
+            anchors.verticalCenter: parent.verticalCenter;
+            width: parent.height;
+            
+            iconSource: "rcs/images/WebView/window-close.png";
+            
+            onClicked: {
+                backPage = true;
+            }
+        }
+        
         TextField {
             id: urlField
             
             anchors.left: parent.left;
-            width: parent.width*3/4;
+            anchors.leftMargin: parent.width/8;
             anchors.verticalCenter: parent.verticalCenter;
             
-            /*
+            width: parent.width*3/4;
+            
             inputMethodHints: Qt.ImhUrlCharactersOnly | Qt.ImhPreferLowercase
             text: webView.url
             
@@ -61,7 +82,6 @@ Page {
                 maximumValue: 100
                 value: webView.loadProgress == 100 ? 0 : webView.loadProgress
             }
-            */
         }
         
         ToolButton {
@@ -73,13 +93,11 @@ Page {
             
             text: qsTr("Go")
             
-            /*
             onClicked: {
                 Qt.inputMethod.commit()
                 Qt.inputMethod.hide()
                 webView.url = utils.fromUserInput(urlField.text)
             }
-            */
             
             style: ButtonStyle {
                 background: Rectangle { color: "transparent" }
@@ -103,7 +121,7 @@ Page {
             anchors.verticalCenter: parent.verticalCenter;
             
             tooltip: qsTr("Back")
-            iconSource: "rcs/images/WebView/left-32.png"
+            iconSource: "rcs/images/WebView/left.png"
 
             onClicked: webView.goBack()
             enabled: webView.canGoBack
@@ -121,7 +139,7 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter;
             
             tooltip: webView.loading ? qsTr("Stop"): qsTr("Refresh")
-            iconSource: webView.loading ? "rcs/images/WebView/stop-32.png" : "rcs/images/WebView/refresh-32.png"
+            iconSource: webView.loading ? "rcs/images/WebView/stop.png" : "rcs/images/WebView/refresh.png"
             onClicked: webView.loading ? webView.stop() : webView.reload()
             style: ButtonStyle {
                 background: Rectangle { color: "transparent" }
@@ -137,7 +155,7 @@ Page {
             anchors.verticalCenter: parent.verticalCenter;
             
             tooltip: qsTr("Forward")
-            iconSource: "rcs/images/WebView/right-32.png"
+            iconSource: "rcs/images/WebView/right.png"
             onClicked: webView.goForward()
             enabled: webView.canGoForward
             style: ButtonStyle {
@@ -146,4 +164,5 @@ Page {
         }
         
     }
+    
 }

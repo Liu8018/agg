@@ -12,17 +12,14 @@ ApplicationWindow {
     property string cSite: "zdh";
     onCSiteChanged: {
         swipeView.currentIndex = 1;
-        //tabBar.currentIndex = 1;
     }
     
     SwipeView {
         id: swipeView;
         anchors.fill: parent;
-        //currentIndex: tabBar.currentIndex;
         onCurrentIndexChanged: {
             if(currentIndex == 2)
                 webPage.visible = true;
-            //tabBar.currentIndex = currentIndex;
         }
         
         AggPage {
@@ -36,34 +33,30 @@ ApplicationWindow {
             onCurrentInfoIdxChanged: {
                 webPage.visible = true;
                 swipeView.currentIndex = 2;
-                //tabBar.currentIndex = 2;
             }
         }
         
         WebPage {
             id: webPage;
             currentUrl: infoPage.currentDetailUrl;
+            
+            onBackPageChanged: {
+                swipeView.currentIndex = 1;
+                backPage = false;
+            }
+        }
+        
+        focus: true;
+        Keys.onReleased: {
+            if (event.key === Qt.Key_Back) {
+                event.accepted = true;
+                
+                if(swipeView.currentIndex > 0)
+                    swipeView.currentIndex--;
+                else
+                    Qt.quit();
+            }
         }
     }
     
-    /*
-    footer: TabBar {
-        id: tabBar;
-        visible: true;
-        currentIndex: swipeView.currentIndex;
-        onCurrentIndexChanged: {
-            swipeView.currentIndex = currentIndex;
-        }
-        
-        TabButton {
-            text: qsTr("Page 0")
-        }
-        TabButton {
-            text: qsTr("Page 1")
-        }
-        TabButton {
-            text: qsTr("Page 2")
-        }
-    }
-    */
 }

@@ -22,8 +22,14 @@ Page {
         cSite: currentSite;
     }
     
+    ToolBar {
+        id: toolBar;
+    }
+    
     ScrollView {
-        anchors.fill: parent;
+        width: parent.width;
+        anchors.top: toolBar.bottom;
+        anchors.bottom: parent.bottom;
         
         ListView {
             id: listView;
@@ -50,13 +56,6 @@ Page {
                         anchors.left: parent.left;
                         anchors.verticalCenter: parent.verticalCenter;
                         height: parent.height;
-                        
-                        /*
-                        Rectangle {
-                            anchors.fill: parent;
-                            color: listView.currentIndex==index? "lightblue":"white";
-                        }
-                        */
                         
                         Text {
                             text: webTool.mainInfos[index];
