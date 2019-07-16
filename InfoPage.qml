@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 import agg.WebTool 1.0
+import QtQuick.Controls 1.1
 
 Page {
     property string currentSite;
@@ -11,6 +12,10 @@ Page {
     
     property string currentDetailUrl: "https://www.baidu.com";
     property int currentInfoIdx: -1;
+    
+    property int toolbarHeight;
+    
+    property bool backPage: false;
     
     visible: true;
     width: initialWidth;
@@ -24,6 +29,50 @@ Page {
     
     ToolBar {
         id: toolBar;
+        
+        width: parent.width;
+        height: toolbarHeight;
+        anchors.top: parent.top;
+        
+        ToolButton {
+            id: closeButton;
+            
+            anchors.left: parent.left;
+            anchors.verticalCenter: parent.verticalCenter;
+            width: parent.height;
+            
+            iconSource: "rcs/images/window-close.png";
+            
+            onClicked: {
+                backPage = true;
+            }
+        }
+        
+        Text {
+            id: siteName;
+            
+            anchors.left: closeButton.right;
+            anchors.verticalCenter: parent.verticalCenter;
+            
+            text: qsTr(webTool.cSiteName);
+            
+            //scale: parent.height/height;
+        }
+        
+        ToolButton {
+            id: refreshButton;
+            
+            anchors.right: parent.right;
+            anchors.verticalCenter: parent.verticalCenter;
+            width: parent.height;
+            
+            iconSource: "rcs/images/MainInfos_refresh.png";
+            
+            onClicked: {
+                //刷新
+            }
+        }
+        
     }
     
     ScrollView {

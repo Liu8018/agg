@@ -3,14 +3,17 @@
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>rcs/siteInfo.txt</file>
-        <file>rcs/images/WebView/refresh.png</file>
-        <file>rcs/images/WebView/right.png</file>
-        <file>rcs/images/WebView/stop.png</file>
         <file>WebPage.qml</file>
         <file>InfoPage.qml</file>
         <file>AggPage.qml</file>
         <file>LoadProgressStyle.qml</file>
-        <file>rcs/images/WebView/window-close.png</file>
-        <file>rcs/images/WebView/left.png</file>
+        <file>rcs/images/left.png</file>
+        <file>rcs/images/MainInfos_refresh.png</file>
+        <file>rcs/images/refresh.png</file>
+        <file>rcs/images/right.png</file>
+        <file>rcs/images/stop.png</file>
+        <file>rcs/images/web.png</file>
+        <file>rcs/images/window-close.png</file>
+        <file>rcs/images/menu.png</file>
     </qresource>
 </RCC>

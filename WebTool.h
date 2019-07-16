@@ -14,6 +14,7 @@ class WebTool : public QObject
     Q_OBJECT
     
     Q_PROPERTY(QString cSite WRITE setCSite)
+    Q_PROPERTY(QString cSiteName READ getCSiteName)
     
     Q_PROPERTY(int currentIdx WRITE setIndex)
     
@@ -33,6 +34,7 @@ public:
     Q_INVOKABLE void loadDetailData();
     
     void setCSite(QString site);
+    QString getCSiteName() const;
     
     void setIndex(int index);
     

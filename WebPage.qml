@@ -11,7 +11,7 @@ Page {
         webView.url = currentUrl;
     }
     
-    property int toolbarHeight: initialHeight/10;
+    property int toolbarHeight;
     
     property bool showProgress: webView.loading
                                 && Qt.platform.os !== "ios"
@@ -42,7 +42,7 @@ Page {
     ToolBar {
         id: inputUrlBar;
         width: parent.width;
-        height: toolbarHeight*3/4;
+        height: toolbarHeight;
         anchors.top: parent.top;
         
         ToolButton {
@@ -52,7 +52,7 @@ Page {
             anchors.verticalCenter: parent.verticalCenter;
             width: parent.height;
             
-            iconSource: "rcs/images/WebView/window-close.png";
+            iconSource: "rcs/images/window-close.png";
             
             onClicked: {
                 backPage = true;
@@ -109,7 +109,7 @@ Page {
         id: navigationBar;
         
         width: parent.width;
-        height: toolbarHeight;
+        height: toolbarHeight*5/4;
         anchors.bottom: parent.bottom;
         
         ToolButton {
@@ -121,7 +121,7 @@ Page {
             anchors.verticalCenter: parent.verticalCenter;
             
             tooltip: qsTr("Back")
-            iconSource: "rcs/images/WebView/left.png"
+            iconSource: "rcs/images/left.png"
 
             onClicked: webView.goBack()
             enabled: webView.canGoBack
@@ -139,7 +139,7 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter;
             
             tooltip: webView.loading ? qsTr("Stop"): qsTr("Refresh")
-            iconSource: webView.loading ? "rcs/images/WebView/stop.png" : "rcs/images/WebView/refresh.png"
+            iconSource: webView.loading ? "rcs/images/stop.png" : "rcs/images/refresh.png"
             onClicked: webView.loading ? webView.stop() : webView.reload()
             style: ButtonStyle {
                 background: Rectangle { color: "transparent" }
@@ -155,7 +155,7 @@ Page {
             anchors.verticalCenter: parent.verticalCenter;
             
             tooltip: qsTr("Forward")
-            iconSource: "rcs/images/WebView/right.png"
+            iconSource: "rcs/images/right.png"
             onClicked: webView.goForward()
             enabled: webView.canGoForward
             style: ButtonStyle {

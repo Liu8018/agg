@@ -9,3 +9,9 @@ url,http://ac.bit.edu.cn/tzgg/index.htm
 info,<li><span>\d{4}-\d{2}-\d{2}</span><a href="\d{6}.htm">(.*)
 date,<li><span>(\d{4}-\d{2}-\d{2})</span><a href="\d{6}.htm">.*,
 detailUrl,<li><span>\d{4}-\d{2}-\d{2}</span><a href="(\d{6}.htm)">.*
+
+siteName,js,简书
+url,https://www.jianshu.com
+info,<a class="title" target="_blank" href=".*">(.*)</a>
+date,none
+detailUrl,<a class="title" target="_blank" href="(.*)">.*</a>

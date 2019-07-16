@@ -154,6 +154,11 @@ void WebTool::setCSite(QString site)
     qDebug()<<"setCSite end";
 }
 
+QString WebTool::getCSiteName() const
+{
+    return m_siteName;
+}
+
 void WebTool::setIndex(int index)
 {
     m_currentIdx = index;

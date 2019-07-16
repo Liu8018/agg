@@ -14,6 +14,8 @@ ApplicationWindow {
         swipeView.currentIndex = 1;
     }
     
+    property int g_toolbarHeight: initialHeight*3/40;
+    
     SwipeView {
         id: swipeView;
         anchors.fill: parent;
@@ -23,22 +25,29 @@ ApplicationWindow {
         }
         
         AggPage {
-            
+            toolbarHeight: g_toolbarHeight;
         }
         
         InfoPage {
             id: infoPage;
             currentSite: cSite;
+            toolbarHeight: g_toolbarHeight;
             
             onCurrentInfoIdxChanged: {
                 webPage.visible = true;
                 swipeView.currentIndex = 2;
+            }
+            
+            onBackPageChanged: {
+                swipeView.currentIndex = 0;
+                backPage = false;
             }
         }
         
         WebPage {
             id: webPage;
             currentUrl: infoPage.currentDetailUrl;
+            toolbarHeight: g_toolbarHeight;
             
             onBackPageChanged: {
                 swipeView.currentIndex = 1;
