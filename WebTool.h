@@ -13,10 +13,8 @@ class WebTool : public QObject
 {
     Q_OBJECT
     
-    Q_PROPERTY(QString cSite WRITE setCSite)
-    Q_PROPERTY(QString cSiteName READ getCSiteName)
-    
-    Q_PROPERTY(int currentIdx WRITE setIndex)
+    Q_PROPERTY(QString cSite WRITE setCSite NOTIFY cSiteChanged)
+    Q_PROPERTY(QString cSiteName READ getCSiteName NOTIFY cSiteNameChanged)
     
     Q_PROPERTY(QStringList mainInfos READ getMainInfos NOTIFY mainInfosChanged)
     Q_PROPERTY(QStringList mainDates READ getMainDates NOTIFY mainDatesChanged)
@@ -36,8 +34,6 @@ public:
     void setCSite(QString site);
     QString getCSiteName() const;
     
-    void setIndex(int index);
-    
     QStringList getMainInfos() const;
     QStringList getMainDates() const;
     //QImage getMainImage() const;
@@ -48,10 +44,13 @@ public:
     QString getDetailData() const;
     
 signals:
-    void mainInfosChanged(QStringList mainInfos);
-    void mainDatesChanged(QStringList mainDates);
-    void mainDetailUrlsChanged(QStringList mainDetailUrls);
-    void mainInfoCountChanged(int mainInfoCount);
+    void cSiteChanged();
+    void cSiteNameChanged();
+    
+    void mainInfosChanged();
+    void mainDatesChanged();
+    void mainDetailUrlsChanged();
+    void mainInfoCountChanged();
     
 public slots:
     

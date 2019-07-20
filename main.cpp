@@ -7,9 +7,10 @@
 #include <QQmlApplicationEngine>
 #include <QtQml/QQmlContext>
 #include <QtWebView/QtWebView>
-#include "WebTool.h"
 
-// Workaround: As of Qt 5.4 QtQuick does not expose QUrl::fromUserInput.
+#include "WebTool.h"
+#include "NotificationClient.h"
+
 class Utils : public QObject {
     Q_OBJECT
 public:
@@ -43,15 +44,21 @@ int main(int argc, char *argv[])
     parser.process(arguments);
     const QString initialUrl = parser.positionalArguments().isEmpty() ?
         QStringLiteral("https://www.baidu.com") : parser.positionalArguments().first();
-    
-    //注册WebTool类
-    qmlRegisterType<WebTool>("agg.WebTool",1,0,"WebTool");
 
     QQmlApplicationEngine engine;
     QQmlContext *context = engine.rootContext();
     context->setContextProperty(QStringLiteral("utils"), new Utils(&engine));
     context->setContextProperty(QStringLiteral("initialUrl"),
                                 Utils::fromUserInput(initialUrl));
+    
+    //注册WebTool类
+    WebTool *webTool = new WebTool(&engine);
+    context->setContextProperty(QLatin1String("webTool"),webTool);
+    //注册NotificationClient类
+    NotificationClient *notificationClient = new NotificationClient(&engine);
+    context->setContextProperty(QLatin1String("notificationClient"),notificationClient);
+    
+    //获取屏幕尺寸信息
     QRect geometry = QGuiApplication::primaryScreen()->availableGeometry();
     if (!QGuiApplication::styleHints()->showIsFullScreen()) {
         const QSize size = geometry.size() * 4 / 5;

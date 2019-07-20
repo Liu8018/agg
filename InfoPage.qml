@@ -1,15 +1,9 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
-import agg.WebTool 1.0
 import QtQuick.Controls 1.1
 
 Page {
-    property string currentSite;
-    onCurrentSiteChanged: {
-        webTool.cSite = currentSite;
-    }
-    
     property string currentDetailUrl: "https://www.baidu.com";
     property int currentInfoIdx: -1;
     
@@ -21,11 +15,6 @@ Page {
     width: initialWidth;
     height: initialHeight;
     title: qsTr("agg");
-    
-    WebTool {
-        id: webTool;
-        cSite: currentSite;
-    }
     
     ToolBar {
         id: toolBar;
@@ -55,8 +44,6 @@ Page {
             anchors.verticalCenter: parent.verticalCenter;
             
             text: qsTr(webTool.cSiteName);
-            
-            //scale: parent.height/height;
         }
         
         ToolButton {
@@ -94,7 +81,6 @@ Page {
                         width: parent.width;
                         onClicked: {
                             listView.currentIndex = index;
-                            webTool.currentIdx = index;
                             currentDetailUrl = webTool.mainDetailUrls[index];
                             currentInfoIdx = index;
                         }
@@ -103,6 +89,7 @@ Page {
                     RowLayout {
                         id: rowLayout;
                         anchors.left: parent.left;
+                        anchors.leftMargin: 8;
                         anchors.verticalCenter: parent.verticalCenter;
                         height: parent.height;
                         

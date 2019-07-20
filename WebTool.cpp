@@ -17,7 +17,7 @@ void WebTool::loadSiteInfo()
     file.close();
     
     QStringList lines = fileContent.split("\n");
-    qDebug()<<lines;
+    //qDebug()<<lines;
     
     for(int i=0;i<lines.length();i++)
     {
@@ -147,9 +147,21 @@ void WebTool::setCSite(QString site)
     qDebug()<<"setCSite begin";
     m_cSite = site;
     
+    m_mainInfos.clear();
+    m_mainDates.clear();
+    m_mainDetailUrls.clear();
+    m_mainImages.clear();
+    
     loadSiteInfo();
     
     loadMainData();
+    
+    emit cSiteChanged();
+    emit cSiteNameChanged();
+    emit mainInfosChanged();
+    emit mainInfoCountChanged();
+    emit mainDatesChanged();
+    emit mainDetailUrlsChanged();
     
     qDebug()<<"setCSite end";
 }
@@ -157,11 +169,6 @@ void WebTool::setCSite(QString site)
 QString WebTool::getCSiteName() const
 {
     return m_siteName;
-}
-
-void WebTool::setIndex(int index)
-{
-    m_currentIdx = index;
 }
 
 QStringList WebTool::getMainInfos() const

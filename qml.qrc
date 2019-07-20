@@ -15,5 +15,7 @@
         <file>rcs/images/web.png</file>
         <file>rcs/images/window-close.png</file>
         <file>rcs/images/menu.png</file>
+        <file>rcs/siteIcons/jwc.png</file>
+        <file>rcs/siteIcons/zdh.png</file>
     </qresource>
 </RCC>
