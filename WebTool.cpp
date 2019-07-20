@@ -2,6 +2,7 @@
 #include <iostream>
 #include <regex>
 #include <QFile>
+#include <QtAndroidExtras/QAndroidJniObject>
 
 WebTool::WebTool(QObject *parent) : QObject(parent)
 {
@@ -115,6 +116,12 @@ void WebTool::extractWebPageInfo(QString pageCode)
     qDebug()<<"infos:"<<m_mainInfos.length()<<m_mainInfos;
     qDebug()<<"dates:"<<m_mainDates.length()<<m_mainDates;
     qDebug()<<"detailUrls:"<<m_mainDetailUrls.length()<<m_mainDetailUrls;
+    
+    //
+    QAndroidJniObject jstr = QAndroidJniObject::fromString("html parser test!");
+    
+    QAndroidJniObject extend("org/agg/JavaExtend");
+    extend.callObjectMethod("parseHtml","(Ljava/lang/String;)V",jstr.object<jstring>());
 }
 
 void WebTool::loadMainData()

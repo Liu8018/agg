@@ -4,13 +4,13 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 
-public class NotificationClient extends org.qtproject.qt5.android.bindings.QtActivity
+public class JavaExtend extends org.qtproject.qt5.android.bindings.QtActivity
 {
     private static NotificationManager m_notificationManager;
     private static Notification.Builder m_builder;
-    private static NotificationClient m_instance;
+    private static JavaExtend m_instance;
 
-    public NotificationClient()
+    public JavaExtend()
     {
         m_instance = this;
     }
@@ -27,4 +27,21 @@ public class NotificationClient extends org.qtproject.qt5.android.bindings.QtAct
         m_builder.setContentText(s);
         m_notificationManager.notify(1, m_builder.build());
     }
+    
+    //----------------------------------------------------------------------------------------------
+    
+    public void parseHtml(String s)
+    {
+        HtmlParser parser = new HtmlParser();
+        parser.test(s);
+    }
 }
+
+class HtmlParser
+{
+    public void test(String s)
+    {
+        System.out.println(s);
+    }
+}
+

@@ -22,7 +22,6 @@ RESOURCES += qml.qrc
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-sources
 
 OTHER_FILES += \
-    android-sources/src/org/agg/NotificationClient.java \
     android-sources/AndroidManifest.xml
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -41,3 +40,6 @@ HEADERS += \
     WebTool.h
 
 INSTALLS += target
+
+DISTFILES += \
+    android-sources/src/org/agg/JavaExtend.java
