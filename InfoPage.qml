@@ -5,16 +5,11 @@ import QtQuick.Controls 1.1
 
 Page {
     property string currentDetailUrl;
-    property int currentInfoIdx: -1;
+    property bool listClick: false;
     
     property int toolbarHeight;
     
     property bool backPage: false;
-    
-    visible: true;
-    width: initialWidth;
-    height: initialHeight;
-    title: qsTr("agg");
     
     ToolBar {
         id: toolBar;
@@ -56,7 +51,7 @@ Page {
             iconSource: "rcs/images/MainInfos_refresh.png";
             
             onClicked: {
-                //刷新
+                webTool.cSite = currentDetailUrl;
             }
         }
         
@@ -82,7 +77,8 @@ Page {
                         onClicked: {
                             listView.currentIndex = index;
                             currentDetailUrl = webTool.mainDetailUrls[index];
-                            currentInfoIdx = index;
+                            
+                            listClick = !listClick;
                         }
                     }
                     

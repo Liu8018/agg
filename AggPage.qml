@@ -5,6 +5,7 @@ import QtQuick.Controls 1.1
 
 Page {
     property string currentSite;
+    property bool buttonClick: false;
     
     property int toolbarHeight;
     
@@ -38,6 +39,7 @@ Page {
         
         onClicked: {
             currentSite = "jwc";
+            buttonClick = !buttonClick;
         }
     }
     ToolButton {
@@ -52,6 +54,7 @@ Page {
         
         onClicked: {
             currentSite = "zdh";
+            buttonClick = !buttonClick;
         }
     }
 }

@@ -16,12 +16,6 @@ Page {
     
     property bool backPage: false;
     
-    x: initialX;
-    y: initialY;
-    width: initialWidth;
-    height: initialHeight;
-    title: webView.title;
-    
     WebView {
         id: webView;
         

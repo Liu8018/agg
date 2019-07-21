@@ -21,7 +21,7 @@ ApplicationWindow {
             id: aggPage;
             toolbarHeight: g_toolbarHeight;
             
-            onCurrentSiteChanged: {
+            onButtonClickChanged:  {
                 webTool.cSite = currentSite;
                 swipeView.currentIndex = 1;
             }
@@ -31,7 +31,7 @@ ApplicationWindow {
             id: infoPage;
             toolbarHeight: g_toolbarHeight;
             
-            onCurrentInfoIdxChanged: {
+            onListClickChanged: {
                 swipeView.currentIndex = 2;
             }
             
