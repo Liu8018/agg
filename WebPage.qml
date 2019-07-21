@@ -7,9 +7,6 @@ import QtQuick.Controls.Styles 1.2
 
 Page {
     property string currentUrl;
-    onCurrentUrlChanged: {
-        webView.url = currentUrl;
-    }
     
     property int toolbarHeight;
     
@@ -19,7 +16,6 @@ Page {
     
     property bool backPage: false;
     
-    visible: false;
     x: initialX;
     y: initialY;
     width: initialWidth;
@@ -28,6 +24,7 @@ Page {
     
     WebView {
         id: webView;
+        
         anchors.top: inputUrlBar.bottom;
         anchors.bottom: navigationBar.top;
         width: parent.width;

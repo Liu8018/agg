@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls 1.1
 
 Page {
-    property string currentDetailUrl: "https://www.baidu.com";
+    property string currentDetailUrl;
     property int currentInfoIdx: -1;
     
     property int toolbarHeight;

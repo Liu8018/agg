@@ -42,14 +42,10 @@ int main(int argc, char *argv[])
     parser.addPositionalArgument("url", "The initial URL to open.");
     QStringList arguments = app.arguments();
     parser.process(arguments);
-    const QString initialUrl = parser.positionalArguments().isEmpty() ?
-        QStringLiteral("https://www.baidu.com") : parser.positionalArguments().first();
 
     QQmlApplicationEngine engine;
     QQmlContext *context = engine.rootContext();
     context->setContextProperty(QStringLiteral("utils"), new Utils(&engine));
-    context->setContextProperty(QStringLiteral("initialUrl"),
-                                Utils::fromUserInput(initialUrl));
     
     //注册WebTool类
     WebTool *webTool = new WebTool(&engine);

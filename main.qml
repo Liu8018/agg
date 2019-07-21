@@ -14,25 +14,16 @@ ApplicationWindow {
         id: swipeView;
         anchors.fill: parent;
         onCurrentIndexChanged: {
-            if(currentIndex == 2)
-                webPage.visible = true;
-            
             notificationClient.notification = "hia hia hia...";
         }
         
         AggPage {
+            id: aggPage;
             toolbarHeight: g_toolbarHeight;
             
             onCurrentSiteChanged: {
                 webTool.cSite = currentSite;
                 swipeView.currentIndex = 1;
-            }
-            
-            onWebButtonClickedChanged: {
-                if(webButtonClicked == true){
-                    swipeView.currentIndex = 2;
-                    webButtonClicked = false;
-                }
             }
         }
         
@@ -76,6 +67,14 @@ ApplicationWindow {
                     Qt.quit();
             }
         }
+        
+        Component.onCompleted: {
+            //contentItem.highlightMoveDuration = 10;
+            swipeView.currentIndex = 1;
+            swipeView.currentIndex = 0;
+        }
+        
+        interactive: false;
     }
     
 }

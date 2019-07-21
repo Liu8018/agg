@@ -8,8 +8,6 @@ Page {
     
     property int toolbarHeight;
     
-    property bool webButtonClicked: false;
-    
     ToolBar {
         id: toolBar;
         
@@ -25,20 +23,6 @@ Page {
             width: parent.height;
             
             iconSource: "rcs/images/menu.png";
-        }
-        
-        ToolButton {
-            id: webButton;
-            
-            anchors.right: parent.right;
-            anchors.verticalCenter: parent.verticalCenter;
-            width: parent.height;
-            
-            iconSource: "rcs/images/web.png";
-            
-            onClicked: {
-                webButtonClicked = true;
-            }
         }
     }
     
